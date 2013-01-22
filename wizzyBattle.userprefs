@@ -1,0 +1,20 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/wizzyScript/WizCharacterControls.js">
+    <Files>
+      <File FileName="Assets/Networking Scripts/NetworkProjectile.cs" Line="21" Column="29" />
+      <File FileName="Assets/Networking Scripts/ThirdPersonNetworkActionHandler.cs" Line="63" Column="5" />
+      <File FileName="Assets/wizzyScript/WizActionHandlerNetwork.cs" Line="64" Column="51" />
+      <File FileName="Assets/wizzyScript/WizSimpleAnimationSyncNetwork.cs" Line="5" Column="43" />
+      <File FileName="Assets/wizzyScript/WizMoveOnMouseClick.cs" Line="25" Column="1" />
+      <File FileName="Assets/CharacterControls-(No Networking code)/ThirdPersonPushBodies.cs" Line="1" Column="1" />
+      <File FileName="Assets/wizzyScript/WizCharacterControls.cs" Line="46" Column="3" />
+      <File FileName="Assets/CharacterControls-(No Networking code)/ThirdPersonController.js" Line="315" Column="30" />
+      <File FileName="Assets/wizzyScript/WizCharacterControls.js" Line="30" Column="18" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
