@@ -43,7 +43,7 @@ public class FollowTrackingCamera : MonoBehaviour
     void LateUpdate(){
         // Check target.
         if( !target ){
-            Debug.LogError("This camera has no target, you need to assign a target in the inspector.");
+            Debug.Log("This camera has no target, you need to assign a target in the inspector.");
             return;
         }
  
@@ -83,4 +83,10 @@ public class FollowTrackingCamera : MonoBehaviour
         // Face the desired position.
         transform.LookAt(target);
     }
+	
+	void SetTarget(Transform t)
+	{
+		target = t;
+	}
+	
 }

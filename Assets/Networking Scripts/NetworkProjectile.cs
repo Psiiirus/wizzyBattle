@@ -57,7 +57,7 @@ public class NetworkProjectile : MonoBehaviour
 		{
 						
 			Debug.Log("OnTriggerEnter -- "+cObject);
-			cObject.GetComponent<ThirdPersonNetworkActionHandler>().hit(DMG);
+			cObject.GetComponent<WizActionHandlerNetwork>().hit(DMG);
 
 			//pushCollider(cObject);
 			

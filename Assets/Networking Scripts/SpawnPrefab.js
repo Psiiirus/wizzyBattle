@@ -2,7 +2,8 @@ var playerPrefab : Transform;
 
 function OnNetworkLoadedLevel ()
 {
-	Network.Instantiate(playerPrefab, transform.position, transform.rotation, 0);
+	var PlayerTransform = Network.Instantiate(playerPrefab, transform.position, transform.rotation, 0);
+	PlayerTransform.parent = transform.parent;
 }
 
 function OnPlayerDisconnected (player : NetworkPlayer)
