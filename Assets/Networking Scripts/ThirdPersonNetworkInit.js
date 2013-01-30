@@ -9,8 +9,9 @@ function OnNetworkInstantiate (msg : NetworkMessageInfo) {
 	else
 	{
 		name += "Remote";
-		GetComponent(WizCharacterControls).enabled = false;
+		//GetComponent(WizCharacterControls).enabled = false;
 		GetComponent(WizSimpleAnimation).enabled = false;
 		GetComponent("NetworkInterpolatedTransform").enabled = true;
+		GetComponent("WizMoveOnMouseClick").enabled = false;
 	}
 }

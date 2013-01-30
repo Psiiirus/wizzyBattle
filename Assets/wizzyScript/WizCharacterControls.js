@@ -25,6 +25,7 @@ var rotateInAir = false;
 private var grounded = false;
 private var groundVelocity : Vector3;
 private var capsule : CapsuleCollider;
+
 public  var rotateSpeed:float = 4.0F; 
 
 private var currentMovingSpeed:float = 0.0F;
@@ -40,7 +41,7 @@ function GetSpeed()
 function Awake ()
 {
    rigidbody.freezeRotation = true;
-   rigidbody.useGravity = false;
+   //rigidbody.useGravity = false;
    capsule = GetComponent(CapsuleCollider);
 }
 
@@ -183,23 +184,25 @@ function TrackGrounded (col : Collision)
       }
    }   
 }
-
+/*
 //unparent if we are no longer standing on our parent
 function OnCollisionExit (col : Collision) 
 {
    if (col.transform == transform.parent) transform.parent = null;
 }
+*/
 
 function OnCollisionStay (col : Collision)
 {
-   TrackGrounded (col);
+	if(col.gameObject.tag == "Baseplate")
+   		TrackGrounded (col);
 }
 
 function OnCollisionEnter (col : Collision)
 {
-   TrackGrounded (col);
+   if(col.gameObject.tag == "Baseplate")
+   		TrackGrounded (col);
 }
-
  
 function CalculateJumpVerticalSpeed ()
 {

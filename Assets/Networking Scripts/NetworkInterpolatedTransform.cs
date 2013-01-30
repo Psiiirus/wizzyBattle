@@ -24,6 +24,7 @@ public class NetworkInterpolatedTransform : MonoBehaviour {
 		{
 			Vector3 pos = transform.localPosition;
 			Quaternion rot = transform.localRotation;
+			
 			stream.Serialize(ref pos);
 			stream.Serialize(ref rot);
 		}
@@ -64,7 +65,14 @@ public class NetworkInterpolatedTransform : MonoBehaviour {
 	}
 	
 	// This only runs where the component is enabled, which is only on remote peers (server/clients)
-	void Update () {
+	void Update () 
+	{
+		
+		if(gameObject.tag == "Player" && transform.parent == null)
+		{
+			transform.parent = GameObject.FindGameObjectWithTag("Baseplate").transform;
+		}
+			
 		double currentTime = Network.time;
 		double interpolationTime = currentTime - interpolationBackTime;
 		// We have a window of interpolationBackTime where we basically play 

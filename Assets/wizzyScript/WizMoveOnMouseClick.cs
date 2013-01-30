@@ -30,7 +30,8 @@ public class WizMoveOnMouseClick : MonoBehaviour
 	public float moveSpeed;						// The Speed the character will move
 	private float moveSpeedTemp;						// The Speed the character will move
  
- 
+ 	public bool isActive = true;
+	
 	void Start () 
 	{
 		moveSpeedTemp = moveSpeed;
@@ -43,8 +44,11 @@ public class WizMoveOnMouseClick : MonoBehaviour
 		return moveSpeed;	
 	}
  
-	void Update () {
- 
+	void Update () 
+	{
+ 		if(!isActive)
+			return;
+
 		// keep track of the distance between this gameObject and destinationPosition
 		destinationDistance = Vector3.Distance(destinationPosition, myTransform.position);
  
@@ -55,38 +59,52 @@ public class WizMoveOnMouseClick : MonoBehaviour
 			moveSpeed = moveSpeedTemp;
 		}
  
- 
-		// Moves the Player if the Left Mouse Button was clicked
-		if (Input.GetMouseButtonDown(0)&& GUIUtility.hotControl ==0) {
- 
-			Plane playerPlane = new Plane(Vector3.up, myTransform.position);
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			float hitdist = 0.0f;
- 
-			if (playerPlane.Raycast(ray, out hitdist)) {
-				Vector3 targetPoint = ray.GetPoint(hitdist);
-				destinationPosition = ray.GetPoint(hitdist);
-				Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-				myTransform.rotation = targetRotation;
+ 		if(
+			Input.GetButtonDown("Spell_1") == false &&
+			Input.GetButtonDown("Spell_2") == false &&
+			Input.GetButtonDown("Spell_3") == false &&
+			Input.GetButtonDown("Spell_4") == false
+			)
+		{
+				
+			// Moves the Player if the Left Mouse Button was clicked
+			if (Input.GetMouseButtonDown(0)&& GUIUtility.hotControl ==0) 
+			{
+	 
+				Plane playerPlane = new Plane(Vector3.up, myTransform.position);
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				float hitdist = 0.0f;
+	 
+				if (playerPlane.Raycast(ray, out hitdist)) 
+				{
+					Vector3 targetPoint = ray.GetPoint(hitdist);
+					destinationPosition = ray.GetPoint(hitdist);
+					Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+					myTransform.rotation = targetRotation;
+				}
 			}
-		}
- 
-		// Moves the player if the mouse button is hold down
-		else if (Input.GetMouseButton(0)&& GUIUtility.hotControl ==0) {
- 
-			Plane playerPlane = new Plane(Vector3.up, myTransform.position);
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			float hitdist = 0.0f;
- 
-			if (playerPlane.Raycast(ray, out hitdist)) {
-				Vector3 targetPoint = ray.GetPoint(hitdist);
-				destinationPosition = ray.GetPoint(hitdist);
-				Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-				myTransform.rotation = targetRotation;
+	 
+			// Moves the player if the mouse button is hold down
+			else if (Input.GetMouseButton(0)&& GUIUtility.hotControl ==0) {
+	 
+				Plane playerPlane = new Plane(Vector3.up, myTransform.position);
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				float hitdist = 0.0f;
+	 
+				if (playerPlane.Raycast(ray, out hitdist)) {
+					Vector3 targetPoint = ray.GetPoint(hitdist);
+					destinationPosition = ray.GetPoint(hitdist);
+					Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+					myTransform.rotation = targetRotation;
+				}
+			//	myTransform.position = Vector3.MoveTowards(myTransform.position, destinationPosition, moveSpeed * Time.deltaTime);
 			}
-		//	myTransform.position = Vector3.MoveTowards(myTransform.position, destinationPosition, moveSpeed * Time.deltaTime);
+		}else
+		{
+			Debug.Log(Input.anyKeyDown);
 		}
- 
+		
+		
 		// To prevent code from running if not needed
 		if(destinationDistance > .5f){
 			myTransform.position = Vector3.MoveTowards(myTransform.position, destinationPosition, moveSpeed * Time.deltaTime);

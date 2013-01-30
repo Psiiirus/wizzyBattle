@@ -2,6 +2,7 @@ var runSpeedScale = 1.0;
 var walkSpeedScale = 1.0;
 var torso : Transform;
 var moveController;
+var currentSpeed =0;
 function Awake ()
 {
 	// By default loop all animations
@@ -11,17 +12,18 @@ function Awake ()
 	animation.Stop();
 	animation.Play("idle");
 	
-	moveController = GetComponent(WizCharacterControls);
+	moveController = GetComponent("WizMoveOnMouseClick");
 }
-
-
 
 function Update ()
 {
-	
-	var currentSpeed = moveController.GetSpeed();
+	if(moveController)
+	{
+		currentSpeed = moveController.GetSpeed();
+		Debug.Log("moveController found");
+		
+	}
 	Debug.Log("currentSpeed "+currentSpeed);
-	
 	
 	var walkSpeed = 0; //moveController.walkSpeed;
 

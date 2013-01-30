@@ -9,13 +9,36 @@ public class NetworkProjectile : MonoBehaviour
 	public int DMG = 10;
 	private float pushPower = 0.5F;
 	private LayerMask pushLayers  = -1;
+	public GameObject owner;
 	
 	void Start () 
 	{
 		if (TTL == 0)
-            TTL = 5;
-		 
-        Invoke("projectileTimeout", TTL);
+            TTL = 3;
+		
+		
+		Debug.Log(Network.peerType+"|"+transform.parent);
+		if(Network.peerType != NetworkPeerType.Disconnected)
+		{
+			
+			// This is our own player
+			if (networkView.isMine)
+			{
+				GetComponent<NetworkInterpolatedTransform>().enabled = false;
+				Invoke("projectileTimeout", TTL);
+			}
+			// This is just some remote controlled player
+			else
+			{
+				name += "Remote";
+				GetComponent<NetworkInterpolatedTransform>().enabled = true;
+			}
+		}else
+		{
+			GetComponent<NetworkInterpolatedTransform>().enabled = false;
+			Debug.Log("Non MP NetworkProjectile");
+			Invoke("projectileTimeout", TTL);
+		}
 	}
 	
 	// Update is called once per frame
@@ -27,44 +50,43 @@ public class NetworkProjectile : MonoBehaviour
 	public void shoot()
 	{
 		//rigidbody.velocity = transform.TransformDirection( new Vector3 (0.0F, 0.0F, initialSpeed) );
-		rigidbody.AddRelativeForce(new Vector3 (0.0F, 0.0F, initialSpeed));
+		rigidbody.AddRelativeForce(new Vector3 (0.0F, 0.0F, initialSpeed),ForceMode.Impulse);
 	}
 	
-	void OnNetworkInstantiate (NetworkMessageInfo msg) 
-	{
-		// This is our own player
-		if (networkView.isMine)
-		{
-			GetComponent<NetworkInterpolatedTransform>().enabled = false;
-		}
-		// This is just some remote controlled player
-		else
-		{
-			name += "Remote";
-			GetComponent<NetworkInterpolatedTransform>().enabled = true;
-		}
-	}
-	
+
 	void projectileTimeout()
     {
-        DestroyObject(gameObject);
+		Debug.Log("projectileTimeout");
+		if(Network.peerType != NetworkPeerType.Disconnected)
+        	networkView.RPC("DestroyNP", RPCMode.All);
+		else
+			DestroyNP();
     }
 	
-	void OnTriggerEnter(Collider cObject)
+	void OnCollisionEnter(Collision cCollision)
 	{
-		Debug.Log("OnTriggerEnter - "+cObject.tag);
-		if(cObject.tag == "Player" && cObject.networkView.isMine==false)
+		GameObject cObject = cCollision.gameObject;
+		
+		if(cObject.tag == "Player" && cObject.networkView.isMine==true) // mein spieler im netzwerk
 		{
-						
-			Debug.Log("OnTriggerEnter -- "+cObject);
-			cObject.GetComponent<WizActionHandlerNetwork>().hit(DMG);
-
-			//pushCollider(cObject);
+			Debug.Log("OnCollisionEnter - "+cObject.tag+"| "+gameObject.name.Contains("Remote")+" && "+cObject.name.Contains("Remote"));
 			
-			DestroyObject(gameObject);
+			cObject.GetComponent<WizActionHandlerNetwork>().hit(DMG,transform);
+			
+			if( gameObject.name.Contains("Remote") && cObject.name.Contains("Remote") ) // NICHT meine Kugel NICHT mein Player
+			{
+				Debug.Log("OnCollisionEnter -- TOTAL REMOTE "+cObject);
+			}else{
+				Debug.Log("OnCollisionEnter -- "+cObject);
+				//pushCollider(cObject);
+				//DestroyObject(gameObject);
+			}
+			
+			// call function
+
+			projectileTimeout();
 
 		}
-		 
 	}
 	
 	void pushCollider(Collider cObject)
@@ -99,8 +121,14 @@ public class NetworkProjectile : MonoBehaviour
 		body.velocity =  cObject.transform.position 
 							* pushPower 
 							* Mathf.Min(controller.GetSpeed(), controller.walkSpeed);		
+	}
+
+	//specify function
 	
-		
+	[RPC]
+	void DestroyNP()
+	{
+		DestroyObject(gameObject);	
 	}
 	 
 }

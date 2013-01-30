@@ -55,6 +55,7 @@
      <Compile Include="Assets\Networking Scripts\PingTester.js" />
      <Compile Include="Assets\Networking Scripts\SpawnPrefab.js" />
      <Compile Include="Assets\Networking Scripts\ThirdPersonNetworkInit.js" />
+     <Compile Include="Assets\wizzyScript\WizCharController.js" />
      <Compile Include="Assets\wizzyScript\WizCharacterControls.js" />
      <Compile Include="Assets\wizzyScript\WizSimpleAnimation.js" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
